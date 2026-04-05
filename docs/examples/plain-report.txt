@@ -1,0 +1,78 @@
+Smart Contract Risk Analyzer v0.1.0
+Target: C:\Users\mppin\Documents\GitHub\smart-contract-risk-analyzer\test\fixtures\plain-project
+Project type: plain
+Analyzed files: 2 (2 entry files)
+Risk score: 100/100
+Severity summary: critical 2 | high 7 | medium 3 | low 0
+
+VulnerableVault
+  [CRITICAL] delegatecall usage - contracts/VulnerableVault.sol:30:8
+    Rule: delegatecall-usage
+    Function: runPlugin
+    Message: Function VulnerableVault.runPlugin uses delegatecall, which can expose storage and execution-context risk.
+    Remediation: Avoid delegatecall unless the storage layout and trust boundary are explicitly controlled.
+  [CRITICAL] selfdestruct usage - contracts/VulnerableVault.sol:34:8
+    Rule: selfdestruct-usage
+    Function: emergencyDestroy
+    Message: Function VulnerableVault.emergencyDestroy can destroy the contract with selfdestruct.
+    Remediation: Remove selfdestruct patterns unless the shutdown flow is intentionally designed and reviewed.
+  [HIGH] tx.origin used for authorization - contracts/VulnerableVault.sol:19:16
+    Rule: tx-origin-auth
+    Function: insecureWithdraw
+    Message: Function VulnerableVault.insecureWithdraw references tx.origin, which is unsafe for authorization decisions.
+    Remediation: Use msg.sender or explicit role checks instead of tx.origin for access control.
+  [HIGH] External call before state update - contracts/VulnerableVault.sol:20:33
+    Rule: external-call-before-state-update
+    Function: insecureWithdraw
+    Message: Function VulnerableVault.insecureWithdraw performs an external call before updating contract state.
+    Remediation: Apply checks-effects-interactions and update critical state before external calls.
+  [HIGH] Missing access control on sensitive function - contracts/VulnerableVault.sol:25:4
+    Rule: missing-access-control
+    Function: uncheckedPayout
+    Message: Function VulnerableVault.uncheckedPayout appears sensitive but lacks obvious access control.
+    Remediation: Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.
+  [HIGH] Unchecked low-level call result - contracts/VulnerableVault.sol:26:8
+    Rule: unchecked-low-level-call
+    Function: uncheckedPayout
+    Message: Function VulnerableVault.uncheckedPayout ignores the result of a low-level call.
+    Remediation: Capture and validate the return value of low-level calls before continuing execution.
+  [HIGH] Missing access control on sensitive function - contracts/VulnerableVault.sol:29:4
+    Rule: missing-access-control
+    Function: runPlugin
+    Message: Function VulnerableVault.runPlugin appears sensitive but lacks obvious access control.
+    Remediation: Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.
+  [HIGH] Unchecked low-level call result - contracts/VulnerableVault.sol:30:8
+    Rule: unchecked-low-level-call
+    Function: runPlugin
+    Message: Function VulnerableVault.runPlugin ignores the result of a low-level call.
+    Remediation: Capture and validate the return value of low-level calls before continuing execution.
+  [HIGH] Missing access control on sensitive function - contracts/VulnerableVault.sol:33:4
+    Rule: missing-access-control
+    Function: emergencyDestroy
+    Message: Function VulnerableVault.emergencyDestroy appears sensitive but lacks obvious access control.
+    Remediation: Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.
+  [MEDIUM] Timestamp or block value used as randomness - contracts/VulnerableVault.sol:38:50
+    Rule: weak-randomness
+    Function: drawRandomWinner
+    Message: Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.
+    Remediation: Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.
+  [MEDIUM] Timestamp or block value used as randomness - contracts/VulnerableVault.sol:38:67
+    Rule: weak-randomness
+    Function: drawRandomWinner
+    Message: Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.
+    Remediation: Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.
+  [MEDIUM] Unbounded loop over storage or user-controlled collections - contracts/VulnerableVault.sol:42:8
+    Rule: unbounded-storage-loop
+    Function: airdrop
+    Message: Function VulnerableVault.airdrop contains a loop with a storage- or input-dependent bound.
+    Remediation: Bound loop sizes, batch work, or move untrusted iteration out of state-changing paths.
+
+Triggered rules:
+- delegatecall-usage (critical, 1 findings)
+- selfdestruct-usage (critical, 1 findings)
+- external-call-before-state-update (high, 1 findings)
+- missing-access-control (high, 3 findings)
+- tx-origin-auth (high, 1 findings)
+- unchecked-low-level-call (high, 2 findings)
+- unbounded-storage-loop (medium, 1 findings)
+- weak-randomness (medium, 2 findings)

@@ -1,0 +1,287 @@
+{
+  "tool": "smart-contract-risk-analyzer",
+  "version": "0.1.0",
+  "target": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project",
+  "projectType": "plain",
+  "projectRoot": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project",
+  "analyzedFiles": [
+    "contracts/SafeVault.sol",
+    "contracts/VulnerableVault.sol"
+  ],
+  "entryFiles": [
+    "contracts/SafeVault.sol",
+    "contracts/VulnerableVault.sol"
+  ],
+  "score": 100,
+  "summary": {
+    "total": 12,
+    "critical": 2,
+    "high": 7,
+    "medium": 3,
+    "low": 0
+  },
+  "findings": [
+    {
+      "ruleId": "delegatecall-usage",
+      "title": "delegatecall usage",
+      "severity": "critical",
+      "confidence": "high",
+      "category": "execution-context",
+      "message": "Function VulnerableVault.runPlugin uses delegatecall, which can expose storage and execution-context risk.",
+      "remediation": "Avoid delegatecall unless the storage layout and trust boundary are explicitly controlled.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 30,
+        "column": 8
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "runPlugin"
+    },
+    {
+      "ruleId": "selfdestruct-usage",
+      "title": "selfdestruct usage",
+      "severity": "critical",
+      "confidence": "high",
+      "category": "destructive-operation",
+      "message": "Function VulnerableVault.emergencyDestroy can destroy the contract with selfdestruct.",
+      "remediation": "Remove selfdestruct patterns unless the shutdown flow is intentionally designed and reviewed.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 34,
+        "column": 8
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "emergencyDestroy"
+    },
+    {
+      "ruleId": "tx-origin-auth",
+      "title": "tx.origin used for authorization",
+      "severity": "high",
+      "confidence": "medium",
+      "category": "authorization",
+      "message": "Function VulnerableVault.insecureWithdraw references tx.origin, which is unsafe for authorization decisions.",
+      "remediation": "Use msg.sender or explicit role checks instead of tx.origin for access control.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 19,
+        "column": 16
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "insecureWithdraw"
+    },
+    {
+      "ruleId": "external-call-before-state-update",
+      "title": "External call before state update",
+      "severity": "high",
+      "confidence": "medium",
+      "category": "reentrancy",
+      "message": "Function VulnerableVault.insecureWithdraw performs an external call before updating contract state.",
+      "remediation": "Apply checks-effects-interactions and update critical state before external calls.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 20,
+        "column": 33
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "insecureWithdraw"
+    },
+    {
+      "ruleId": "missing-access-control",
+      "title": "Missing access control on sensitive function",
+      "severity": "high",
+      "confidence": "medium",
+      "category": "authorization",
+      "message": "Function VulnerableVault.uncheckedPayout appears sensitive but lacks obvious access control.",
+      "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 25,
+        "column": 4
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "uncheckedPayout"
+    },
+    {
+      "ruleId": "unchecked-low-level-call",
+      "title": "Unchecked low-level call result",
+      "severity": "high",
+      "confidence": "high",
+      "category": "error-handling",
+      "message": "Function VulnerableVault.uncheckedPayout ignores the result of a low-level call.",
+      "remediation": "Capture and validate the return value of low-level calls before continuing execution.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 26,
+        "column": 8
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "uncheckedPayout"
+    },
+    {
+      "ruleId": "missing-access-control",
+      "title": "Missing access control on sensitive function",
+      "severity": "high",
+      "confidence": "medium",
+      "category": "authorization",
+      "message": "Function VulnerableVault.runPlugin appears sensitive but lacks obvious access control.",
+      "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 29,
+        "column": 4
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "runPlugin"
+    },
+    {
+      "ruleId": "unchecked-low-level-call",
+      "title": "Unchecked low-level call result",
+      "severity": "high",
+      "confidence": "high",
+      "category": "error-handling",
+      "message": "Function VulnerableVault.runPlugin ignores the result of a low-level call.",
+      "remediation": "Capture and validate the return value of low-level calls before continuing execution.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 30,
+        "column": 8
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "runPlugin"
+    },
+    {
+      "ruleId": "missing-access-control",
+      "title": "Missing access control on sensitive function",
+      "severity": "high",
+      "confidence": "medium",
+      "category": "authorization",
+      "message": "Function VulnerableVault.emergencyDestroy appears sensitive but lacks obvious access control.",
+      "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 33,
+        "column": 4
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "emergencyDestroy"
+    },
+    {
+      "ruleId": "weak-randomness",
+      "title": "Timestamp or block value used as randomness",
+      "severity": "medium",
+      "confidence": "medium",
+      "category": "entropy",
+      "message": "Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.",
+      "remediation": "Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 38,
+        "column": 50
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "drawRandomWinner"
+    },
+    {
+      "ruleId": "weak-randomness",
+      "title": "Timestamp or block value used as randomness",
+      "severity": "medium",
+      "confidence": "medium",
+      "category": "entropy",
+      "message": "Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.",
+      "remediation": "Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 38,
+        "column": 67
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "drawRandomWinner"
+    },
+    {
+      "ruleId": "unbounded-storage-loop",
+      "title": "Unbounded loop over storage or user-controlled collections",
+      "severity": "medium",
+      "confidence": "medium",
+      "category": "gas",
+      "message": "Function VulnerableVault.airdrop contains a loop with a storage- or input-dependent bound.",
+      "remediation": "Bound loop sizes, batch work, or move untrusted iteration out of state-changing paths.",
+      "location": {
+        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "relativePath": "contracts/VulnerableVault.sol",
+        "line": 42,
+        "column": 8
+      },
+      "contractName": "VulnerableVault",
+      "functionName": "airdrop"
+    }
+  ],
+  "rulesTriggered": [
+    {
+      "ruleId": "delegatecall-usage",
+      "title": "delegatecall usage",
+      "severity": "critical",
+      "category": "execution-context",
+      "count": 1
+    },
+    {
+      "ruleId": "selfdestruct-usage",
+      "title": "selfdestruct usage",
+      "severity": "critical",
+      "category": "destructive-operation",
+      "count": 1
+    },
+    {
+      "ruleId": "external-call-before-state-update",
+      "title": "External call before state update",
+      "severity": "high",
+      "category": "reentrancy",
+      "count": 1
+    },
+    {
+      "ruleId": "missing-access-control",
+      "title": "Missing access control on sensitive function",
+      "severity": "high",
+      "category": "authorization",
+      "count": 3
+    },
+    {
+      "ruleId": "tx-origin-auth",
+      "title": "tx.origin used for authorization",
+      "severity": "high",
+      "category": "authorization",
+      "count": 1
+    },
+    {
+      "ruleId": "unchecked-low-level-call",
+      "title": "Unchecked low-level call result",
+      "severity": "high",
+      "category": "error-handling",
+      "count": 2
+    },
+    {
+      "ruleId": "unbounded-storage-loop",
+      "title": "Unbounded loop over storage or user-controlled collections",
+      "severity": "medium",
+      "category": "gas",
+      "count": 1
+    },
+    {
+      "ruleId": "weak-randomness",
+      "title": "Timestamp or block value used as randomness",
+      "severity": "medium",
+      "category": "entropy",
+      "count": 2
+    }
+  ]
+}
