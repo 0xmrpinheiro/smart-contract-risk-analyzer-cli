@@ -1,5 +1,5 @@
 Smart Contract Risk Analyzer v0.1.0
-Target: C:\Users\mppin\Documents\GitHub\smart-contract-risk-analyzer\test\fixtures\plain-project
+Target: test/fixtures/plain-project
 Project type: plain
 Analyzed files: 2 (2 entry files)
 Risk score: 100/100

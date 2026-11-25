@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Biome formats these files with LF on every platform.
+*.ts text eol=lf
+*.js text eol=lf
+*.json text eol=lf

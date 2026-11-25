@@ -1,153 +1,77 @@
-# Smart Contract Risk Analyzer
+# Smart Contract Risk Analyzer (`scra`)
 
-`scra` is a fully free and open-source Solidity smart contract risk analyzer for local projects. It scans local source code, applies deterministic heuristic rules, and produces terminal, JSON, and static HTML reports without API keys or paid services.
+Flag common Solidity risk patterns before code review. `scra` runs locally on
+Foundry, Hardhat, or plain Solidity projects and writes findings to the terminal,
+JSON, or a standalone HTML report. It needs no account, API key, or RPC endpoint.
 
-## Highlights
+![Standalone HTML report for the bundled example, showing finding counts and severity filters](docs/examples/report-preview.png)
 
-- Free and open source under `GPL-3.0-or-later`
-- Local-source-only analysis for Solidity contracts
-- Supports `Foundry`, `Hardhat`, and plain Solidity folders
-- Outputs a human-readable CLI report plus optional JSON and static HTML
-- Built for developer workflows and showcase demos
+**Preview:** [Sample text report](docs/examples/plain-report.txt) ·
+[Sample JSON](docs/examples/plain-report.json) ·
+[HTML report source](docs/examples/plain-report.html). Download the HTML file
+and open it in a browser to use the severity filters. The samples are from a
+bundled test project, not a live deployment.
 
-## Install
+## Quick start
 
-Published package usage after release:
+Use Node.js 22 or 24 and pnpm 10.28.2 (the version in `package.json`). If you
+don't have pnpm, install it with `npm install --global pnpm@10.28.2`.
+Build from source; an npm release is not available.
 
-```bash
-npx smart-contract-risk-analyzer analyze .
+```sh
+git clone https://github.com/0xmrpinheiro/smart-contract-risk-analyzer-cli.git
+cd smart-contract-risk-analyzer-cli
+pnpm install --frozen-lockfile
+pnpm build
+node dist/index.js analyze test/fixtures/plain-project/contracts/SafeVault.sol --no-color --html tmp/scra-report.html --json tmp/scra-report.json
 ```
 
-Or install globally:
+Open `tmp/scra-report.html` in a browser. This example exercises both report
+formats without findings at the default failure threshold. Installing
+dependencies needs an internet connection; analyzing local code does not.
 
-```bash
-pnpm add -g smart-contract-risk-analyzer
-scra analyze .
+## Analyze your project
+
+```sh
+node dist/index.js analyze /path/to/project --html tmp/scra-report.html
+node dist/index.js analyze /path/to/project --format json --no-color
+node dist/index.js rules --no-color
 ```
 
-## Run From This Repository
+Pass a `.sol` file or the project root. Install or vendor the target project's
+Solidity dependencies first so imports can resolve. `--project auto` detects
+Foundry and reads its remappings, detects a Hardhat project and looks for local
+dependencies, or falls back to a plain Solidity layout. Override detection with
+`--project foundry`, `--project hardhat`, or `--project plain`.
 
-```bash
-corepack pnpm install
-corepack pnpm build
-node dist/index.js rules
-node dist/index.js analyze ./contracts
-```
+| Flag | Use |
+| --- | --- |
+| `--format text\|json` | Choose the output written to stdout (default: `text`). |
+| `--json <path>` / `--html <path>` | Write a JSON or standalone HTML report. |
+| `--min-severity <severity>` | Set the lowest severity included in reports (default: `low`). |
+| `--fail-on <severity>` | Set the severity that makes the command return exit code `1` (default: `critical`). |
+| `--no-color` | Remove ANSI styling from text output. |
 
-For source-level local runs without building:
+Severity levels are `low`, `medium`, `high`, and `critical`. Exit code `0` means
+no finding met the failure threshold; `1` means a finding met it; `2` means a
+usage, import-resolution, or parse error. Reports can still be written when the
+command returns `1`.
 
-```bash
-corepack pnpm run dev -- rules
-corepack pnpm run dev -- analyze ./contracts
-corepack pnpm exec tsx src/index.ts rules
-corepack pnpm exec tsx src/index.ts analyze ./contracts
-```
+## Scope and limitations
 
-## Usage
-
-```bash
-scra analyze ./contracts
-scra analyze . --project foundry --html report.html --json report.json
-scra analyze ./contracts --min-severity medium --fail-on high
-scra rules
-```
-
-Repository-local equivalents:
-
-```bash
-node dist/index.js analyze ./contracts
-node dist/index.js analyze . --project foundry --html report.html --json report.json
-node dist/index.js analyze ./contracts --min-severity medium --fail-on high
-node dist/index.js rules
-```
-
-## Commands
-
-### `scra analyze <target>`
-
-Flags:
-
-- `--project auto|foundry|hardhat|plain`
-- `--format text|json`
-- `--json <path>`
-- `--html <path>`
-- `--min-severity low|medium|high|critical`
-- `--fail-on low|medium|high|critical`
-- `--no-color`
-
-Exit codes:
-
-- `0`: no findings at or above `--fail-on`
-- `1`: findings at or above `--fail-on`
-- `2`: usage, import-resolution, or parse failure
-
-### `scra rules`
-
-Lists all built-in rules with severity, category, and remediation guidance.
-
-## Built-in Rules
-
-- `external-call-before-state-update`
-- `unchecked-low-level-call`
-- `tx-origin-auth`
-- `delegatecall-usage`
-- `selfdestruct-usage`
-- `weak-randomness`
-- `unbounded-storage-loop`
-- `missing-access-control`
-
-## Showcase Outputs
-
-Generated sample reports for the vulnerable fixture live in `docs/examples/`:
-
-- `docs/examples/plain-report.txt`
-- `docs/examples/plain-report.json`
-- `docs/examples/plain-report.html`
-
-The HTML report includes severity filter buttons and works on desktop and mobile layouts.
-
-## Project Support
-
-- Foundry: `foundry.toml`, `remappings.txt`, `lib/`
-- Hardhat: `hardhat.config.*`, `contracts/`, `node_modules/`
-- Plain Solidity folders
+The rules flag source patterns for human review. They can produce false
+positives or miss issues. The score summarizes rule findings; it does **not**
+measure exploitability or certify that a contract is safe. The CLI does not
+verify deployed bytecode, perform formal verification, or replace an audit.
 
 ## Development
 
-```bash
-corepack pnpm install
-corepack pnpm lint
-corepack pnpm typecheck
-corepack pnpm test
-corepack pnpm build
+```sh
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
 ```
 
-## Verified Workflows
-
-These flows were smoke-tested from the built CLI:
-
-```bash
-node dist/index.js --help
-node dist/index.js analyze --help
-node dist/index.js rules --help
-node dist/index.js rules --no-color
-node dist/index.js analyze test/fixtures/plain-project/contracts/SafeVault.sol --no-color --format json
-node dist/index.js analyze test/fixtures/plain-project --no-color --format json --min-severity critical
-node dist/index.js analyze test/fixtures/foundry-project --project foundry --no-color
-node dist/index.js analyze test/fixtures/hardhat-project --project hardhat --no-color
-node dist/index.js analyze test/fixtures/plain-project/contracts/SafeVault.sol --no-color --json tmp/smoke/safe-report.json --html tmp/smoke/safe-report.html
-corepack pnpm run dev -- rules --no-color
-corepack pnpm run dev -- analyze test/fixtures/hardhat-project --project hardhat --no-color
-```
-
-Failure-path behavior was also confirmed:
-
-```bash
-node dist/index.js analyze tmp/smoke/Broken.sol --no-color
-```
-
-That command exits with code `2` because the import cannot be resolved.
-
-## Limitations
-
-`scra` is a heuristic analyzer. It helps surface common Solidity risk patterns, but it is not a formal verifier and not a substitute for a professional security review or audit.
+See [Contributing](CONTRIBUTING.md) for the project layout. Licensed under
+[GPL-3.0-or-later](LICENSE).

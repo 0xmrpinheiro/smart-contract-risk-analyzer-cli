@@ -1,9 +1,9 @@
 {
   "tool": "smart-contract-risk-analyzer",
   "version": "0.1.0",
-  "target": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project",
+  "target": "test/fixtures/plain-project",
   "projectType": "plain",
-  "projectRoot": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project",
+  "projectRoot": "test/fixtures/plain-project",
   "analyzedFiles": [
     "contracts/SafeVault.sol",
     "contracts/VulnerableVault.sol"
@@ -30,7 +30,7 @@
       "message": "Function VulnerableVault.runPlugin uses delegatecall, which can expose storage and execution-context risk.",
       "remediation": "Avoid delegatecall unless the storage layout and trust boundary are explicitly controlled.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 30,
         "column": 8
@@ -47,7 +47,7 @@
       "message": "Function VulnerableVault.emergencyDestroy can destroy the contract with selfdestruct.",
       "remediation": "Remove selfdestruct patterns unless the shutdown flow is intentionally designed and reviewed.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 34,
         "column": 8
@@ -64,7 +64,7 @@
       "message": "Function VulnerableVault.insecureWithdraw references tx.origin, which is unsafe for authorization decisions.",
       "remediation": "Use msg.sender or explicit role checks instead of tx.origin for access control.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 19,
         "column": 16
@@ -81,7 +81,7 @@
       "message": "Function VulnerableVault.insecureWithdraw performs an external call before updating contract state.",
       "remediation": "Apply checks-effects-interactions and update critical state before external calls.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 20,
         "column": 33
@@ -98,7 +98,7 @@
       "message": "Function VulnerableVault.uncheckedPayout appears sensitive but lacks obvious access control.",
       "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 25,
         "column": 4
@@ -115,7 +115,7 @@
       "message": "Function VulnerableVault.uncheckedPayout ignores the result of a low-level call.",
       "remediation": "Capture and validate the return value of low-level calls before continuing execution.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 26,
         "column": 8
@@ -132,7 +132,7 @@
       "message": "Function VulnerableVault.runPlugin appears sensitive but lacks obvious access control.",
       "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 29,
         "column": 4
@@ -149,7 +149,7 @@
       "message": "Function VulnerableVault.runPlugin ignores the result of a low-level call.",
       "remediation": "Capture and validate the return value of low-level calls before continuing execution.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 30,
         "column": 8
@@ -166,7 +166,7 @@
       "message": "Function VulnerableVault.emergencyDestroy appears sensitive but lacks obvious access control.",
       "remediation": "Protect sensitive state-changing and fund-moving functions with explicit role or ownership checks.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 33,
         "column": 4
@@ -183,7 +183,7 @@
       "message": "Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.",
       "remediation": "Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 38,
         "column": 50
@@ -200,7 +200,7 @@
       "message": "Function VulnerableVault.drawRandomWinner uses block-controlled values in a randomness-like expression.",
       "remediation": "Use a verifiable randomness source or a commit-reveal design instead of block-derived entropy.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 38,
         "column": 67
@@ -217,7 +217,7 @@
       "message": "Function VulnerableVault.airdrop contains a loop with a storage- or input-dependent bound.",
       "remediation": "Bound loop sizes, batch work, or move untrusted iteration out of state-changing paths.",
       "location": {
-        "filePath": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project\\contracts\\VulnerableVault.sol",
+        "filePath": "test/fixtures/plain-project/contracts/VulnerableVault.sol",
         "relativePath": "contracts/VulnerableVault.sol",
         "line": 42,
         "column": 8

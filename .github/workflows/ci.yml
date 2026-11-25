@@ -1,0 +1,40 @@
+name: CLI checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: '22'
+          - os: windows-latest
+            node: '24'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+      - name: Install pnpm and dependencies
+        run: |
+          npm install --global pnpm@10.28.2
+          pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: Run the documented quickstart
+        run: node dist/index.js analyze test/fixtures/plain-project/contracts/SafeVault.sol --no-color --html tmp/scra-report.html --json tmp/scra-report.json
