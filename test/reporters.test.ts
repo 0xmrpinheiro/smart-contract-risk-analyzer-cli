@@ -11,6 +11,7 @@ describe("reporters", () => {
 		const stableResult = {
 			...result,
 			target: normalizeSnapshot(result.target).replaceAll("\\", "/"),
+			projectRoot: normalizeSnapshot(result.projectRoot).replaceAll("\\", "/"),
 			findings: result.findings.map((finding) => ({
 				...finding,
 				location: {
@@ -24,6 +25,10 @@ describe("reporters", () => {
 			text: renderTextReport(stableResult, false),
 			json: renderJsonReport(stableResult),
 			html: renderHtmlReport(stableResult),
+		}
+		for (const report of Object.values(payload)) {
+			expect(report).not.toContain(process.cwd())
+			expect(report).not.toContain(JSON.stringify(process.cwd()).slice(1, -1))
 		}
 
 		expect(payload).toMatchSnapshot()

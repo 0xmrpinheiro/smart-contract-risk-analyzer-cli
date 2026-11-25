@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "target": "test/fixtures/plain-project",
   "projectType": "plain",
-  "projectRoot": "C:\\Users\\mppin\\Documents\\GitHub\\smart-contract-risk-analyzer\\test\\fixtures\\plain-project",
+  "projectRoot": "test/fixtures/plain-project",
   "analyzedFiles": [
     "contracts/SafeVault.sol",
     "contracts/VulnerableVault.sol"

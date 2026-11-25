@@ -355,7 +355,7 @@ exports[`reporters > render text, json, and html reports for the vulnerable fixt
   "version": "0.1.0",
   "target": "<FIXTURES>/plain-project",
   "projectType": "plain",
-  "projectRoot": "C:\\\\Users\\\\mppin\\\\AppData\\\\Local\\\\Temp\\\\public-scra-3cd2a5664161442bb4e2866965a525ea\\\\checkout\\\\test\\\\fixtures\\\\plain-project",
+  "projectRoot": "<FIXTURES>/plain-project",
   "analyzedFiles": [
     "contracts/SafeVault.sol",
     "contracts/VulnerableVault.sol"
