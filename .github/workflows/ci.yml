@@ -11,6 +11,7 @@ permissions:
 jobs:
   verify:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
