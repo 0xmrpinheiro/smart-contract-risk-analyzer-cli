@@ -51,8 +51,37 @@ export async function withTempProject(
 }
 
 export function normalizeSnapshot(value: string): string {
+	const jsonRoot = JSON.stringify(fixturesRoot).slice(1, -1)
 	return value
+		.replaceAll(jsonRoot, "<FIXTURES>")
 		.replaceAll(fixturesRoot, "<FIXTURES>")
 		.replaceAll(fixturesRoot.split(path.sep).join("/"), "<FIXTURES>")
 		.replaceAll("\r\n", "\n")
+}
+
+export async function withHardhatFixture(callback: (root: string) => Promise<void>): Promise<void> {
+	const [config, contract, dependency] = await Promise.all([
+		fs.readFile(fixturePath("hardhat-project", "hardhat.config.js"), "utf8"),
+		fs.readFile(fixturePath("hardhat-project", "contracts", "HardhatVault.sol"), "utf8"),
+		fs.readFile(
+			fixturePath(
+				"foundry-project",
+				"lib",
+				"openzeppelin-contracts",
+				"contracts",
+				"token",
+				"ERC20",
+				"ERC20.sol",
+			),
+			"utf8",
+		),
+	])
+	await withTempProject(
+		{
+			"hardhat.config.js": config,
+			"contracts/HardhatVault.sol": contract,
+			"node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": dependency,
+		},
+		callback,
+	)
 }

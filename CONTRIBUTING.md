@@ -5,7 +5,7 @@ Thanks for helping improve `scra`.
 ## Local setup
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm lint
 pnpm typecheck
 pnpm test
@@ -27,8 +27,7 @@ pnpm build
 - Add or update tests alongside rule and pipeline changes
 - Document rule behavior and limitations when changing findings
 
-## Release flow
+## Continuous integration
 
-- CI runs on pushes and pull requests
-- npm publishing is handled by the tag-based GitHub Actions workflow
-- Tag releases as `v<version>` after updating `package.json`
+CI runs on pull requests and pushes to `main`. It checks lint, types, tests,
+the source build, and the documented quickstart. It does not publish to npm.

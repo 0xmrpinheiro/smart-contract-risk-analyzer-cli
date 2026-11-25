@@ -3,7 +3,7 @@ import path from "node:path"
 import { describe, expect, test } from "vitest"
 
 import { prepareProject, resolveImportSpecifier } from "../src/core/project"
-import { fixturePath } from "./helpers"
+import { fixturePath, withHardhatFixture } from "./helpers"
 
 describe("project preparation", () => {
 	test("detects a plain Solidity folder", async () => {
@@ -55,24 +55,13 @@ describe("project preparation", () => {
 	})
 
 	test("resolves Hardhat node_modules imports", async () => {
-		const project = await prepareProject(fixturePath("hardhat-project"), "auto")
-		const importer = path.join(fixturePath("hardhat-project"), "contracts", "HardhatVault.sol")
-		const resolved = await resolveImportSpecifier(
-			"@openzeppelin/contracts/token/ERC20/ERC20.sol",
-			importer,
-			project,
-		)
+		await withHardhatFixture(async (root) => {
+			const project = await prepareProject(root, "auto")
+			const importer = path.join(root, "contracts", "HardhatVault.sol")
+			const specifier = "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+			const resolved = await resolveImportSpecifier(specifier, importer, project)
 
-		expect(resolved).toBe(
-			path.join(
-				fixturePath("hardhat-project"),
-				"node_modules",
-				"@openzeppelin",
-				"contracts",
-				"token",
-				"ERC20",
-				"ERC20.sol",
-			),
-		)
+			expect(resolved).toBe(path.join(root, "node_modules", specifier))
+		})
 	})
 })

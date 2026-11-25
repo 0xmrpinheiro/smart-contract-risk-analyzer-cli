@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest"
 
-import { analyzeFixture } from "./helpers"
+import { analyzeFixture, withHardhatFixture } from "./helpers"
 
 describe("fixture integrations", () => {
 	test("analyzes the plain fixture", async () => {
@@ -21,14 +21,15 @@ describe("fixture integrations", () => {
 	})
 
 	test("analyzes the Hardhat fixture including node_modules imports", async () => {
-		const execution = await analyzeFixture("hardhat-project")
-
-		expect(execution.result.projectType).toBe("hardhat")
-		expect(execution.result.analyzedFiles).toContain(
-			"node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
-		)
-		expect(execution.result.findings.map((finding) => finding.ruleId)).toEqual(
-			expect.arrayContaining(["unchecked-low-level-call", "missing-access-control"]),
-		)
+		await withHardhatFixture(async (targetPath) => {
+			const execution = await analyzeFixture("hardhat-project", { targetPath })
+			expect(execution.result.projectType).toBe("hardhat")
+			expect(execution.result.analyzedFiles).toContain(
+				"node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+			)
+			expect(execution.result.findings.map((finding) => finding.ruleId)).toEqual(
+				expect.arrayContaining(["unchecked-low-level-call", "missing-access-control"]),
+			)
+		})
 	})
 })
